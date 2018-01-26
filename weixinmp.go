@@ -346,18 +346,18 @@ func (this *Weixinmp) GetQRCodeURL(ticket string) string {
 	return "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=" + ticket
 }
 
-// create permanent qrcode
-func (this *Weixinmp) CreateQRScene(sceneId int64) (string, error) {
+// create temporary qrcode
+func (this *Weixinmp) CreateQRScene(expireSeconds, sceneId int64) (string, error) {
 	var inf qrScene
+	inf.ExpireSeconds = expireSeconds
 	inf.ActionName = "QR_SCENE"
 	inf.ActionInfo.Scene.SceneId = sceneId
 	return this.createQRCode(&inf)
 }
 
-// create temporary qrcode
-func (this *Weixinmp) CreateQRLimitScene(expireSeconds, sceneId int64) (string, error) {
+// create permanent qrcode
+func (this *Weixinmp) CreateQRLimitScene(sceneId int64) (string, error) {
 	var inf qrScene
-	inf.ExpireSeconds = expireSeconds
 	inf.ActionName = "QR_LIMIT_SCENE"
 	inf.ActionInfo.Scene.SceneId = sceneId
 	return this.createQRCode(&inf)
